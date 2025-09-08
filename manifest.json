@@ -3,7 +3,7 @@
   "name": "CalculaKitty",
   "short_name": "CalculaKitty",
   "description": "Una calculadora kawaii rosa y azul con Hello Kitty 🎀",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffe6f0",
   "theme_color": "#ff69b4",
