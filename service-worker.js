@@ -1,43 +1,45 @@
-// Nombre del cache (cambia la versión si actualizas la app)
-const CACHE_NAME = 'calculakitty-cache-v1';
-
-// Archivos que queremos cachear
+const CACHE_NAME = 'calculadora-kawaii-cache-v1';
 const urlsToCache = [
+  '/',
   '/index.html',
-  '/manifest.json',
   '/logo_aplicacion.png',
-  '/moka-chan-osiete-kureta.mp3'
+  '/moka-chan-osiete-kureta.mp3',
+  '/style.css',
+  '/script.js'
 ];
 
-// Instalación del service worker y cache de archivos
-self.addEventListener('install', event => {
+// Instalación del service worker
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
+      .then((cache) => {
         return cache.addAll(urlsToCache);
       })
   );
-  self.skipWaiting(); // activa inmediatamente
 });
 
-// Activación del service worker y limpieza de cachés viejas
-self.addEventListener('activate', event => {
+// Activación del service worker
+self.addEventListener('activate', (event) => {
+  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.filter(name => name !== CACHE_NAME)
-                  .map(name => caches.delete(name))
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
       );
     })
   );
-  self.clients.claim(); // toma control de las pestañas abiertas
 });
 
-// Intercepta las solicitudes para servir los recursos cacheados
-self.addEventListener('fetch', event => {
+// Intercepción de solicitudes de red
+self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+    caches.match(event.request)
+      .then((response) => {
+        return response || fetch(event.request);
+      })
   );
 });
