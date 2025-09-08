@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora Kawaii Rosa + Azul</title>
+<title>CalculaKitty</title>
+
+<!-- Manifest para PWA -->
+<link rel="manifest" href="/manifest.json">
+
 <style>
   body {
     background: linear-gradient(to bottom, #ffe6f0, #d0f8ff);
@@ -14,12 +18,7 @@
     height: 100vh;
     overflow: hidden;
   }
-
-  .container {
-    display: flex;
-    gap: 20px;
-  }
-
+  .container { display: flex; gap: 20px; }
   .historial {
     background-color: #ffe6f5;
     border-radius: 15px;
@@ -29,13 +28,7 @@
     overflow-y: auto;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   }
-
-  .historial h2 {
-    color: #ff69b4;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
+  .historial h2 { color: #ff69b4; text-align: center; margin-bottom: 10px; }
   .calculadora {
     background-color: #fdd7e4;
     padding: 20px;
@@ -45,18 +38,15 @@
     width: 320px;
     position: relative;
   }
-
-  /* Imagen de fondo detrás de los números */
   .fondo-imagen {
     position: absolute;
-    top: 80px; /* ajusta según necesites */
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
-    width: 280px; /* ajusta según prefieras */
-    opacity: 0.3; /* para que no tape los números */
-    z-index: 0; /* detrás de pantalla y botones */
+    width: 280px;
+    opacity: 0.3;
+    z-index: 0;
   }
-
   .pantalla {
     width: 100%;
     height: 60px;
@@ -66,12 +56,11 @@
     padding: 5px 10px;
     border-radius: 12px;
     border: 2px solid rgba(255,105,180,0.5);
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255,255,255,0.6);
     color: #000080;
     position: relative;
     z-index: 2;
   }
-
   .boton {
     width: 60px;
     height: 60px;
@@ -87,17 +76,10 @@
     position: relative;
     z-index: 2;
   }
-
   .boton:hover {
     background: linear-gradient(135deg, #ffb6c1, #add8ff, #ffffff);
   }
-
-  .fila {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5px;
-  }
-
+  .fila { display: flex; justify-content: center; margin-bottom: 5px; }
   .logo {
     max-width: 120px;
     margin-bottom: 15px;
@@ -105,8 +87,6 @@
     z-index: 2;
     cursor: pointer;
   }
-
-  /* Corazones y confetti animados */
   .corazon, .confetti {
     position: absolute;
     font-size: 14px;
@@ -114,17 +94,14 @@
     z-index: 10;
     animation: flotar 2s linear forwards;
   }
-
-  .confetti {
-    font-size: 12px;
-  }
-
+  .confetti { font-size: 12px; }
   @keyframes flotar {
     0% { transform: translateY(0) scale(1); opacity: 1; }
     100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
   }
 </style>
 </head>
+
 <body>
 <div class="container">
   <div class="historial" id="historial">
@@ -140,7 +117,6 @@
       Tu navegador no soporta audio.
     </audio>
 
-    <!-- Imagen de fondo kawaii detrás de los números -->
     <img src="https://i.imgur.com/UxnSBhz.png" class="fondo-imagen" alt="fondo kawaii">
 
     <input type="text" class="pantalla" id="pantalla" disabled>
@@ -184,7 +160,6 @@
   const audio = document.getElementById('cinnamorollAudio');
 
   function agregar(valor) { pantalla.value += valor; }
-
   function calcular() {
     try {
       const operacion = pantalla.value;
@@ -195,7 +170,6 @@
       listaHistorial.prepend(item);
     } catch { pantalla.value = "Error"; }
   }
-
   function borrar() { pantalla.value = ''; }
   function borrarUltimo() { pantalla.value = pantalla.value.slice(0, -1); }
   function raiz() {
@@ -220,10 +194,8 @@
   function reproducirAudioYAnimacion() {
     audio.currentTime = 0;
     audio.play();
-
     const calculadora = document.querySelector('.calculadora');
     for(let i=0;i<10;i++){
-      // corazones
       const heart = document.createElement('div');
       heart.className = 'corazon';
       heart.style.left = `${50 + Math.random()*200}px`;
@@ -231,9 +203,8 @@
       heart.style.color = `#ff69b4`;
       heart.textContent = '❤';
       calculadora.appendChild(heart);
-      setTimeout(()=>heart.remove(), 2000);
+      setTimeout(()=>heart.remove(),2000);
 
-      // confetti
       const conf = document.createElement('div');
       conf.className = 'confetti';
       conf.style.left = `${50 + Math.random()*200}px`;
@@ -242,17 +213,23 @@
       conf.style.color = colors[Math.floor(Math.random()*colors.length)];
       conf.textContent = '•';
       calculadora.appendChild(conf);
-      setTimeout(()=>conf.remove(), 2000);
+      setTimeout(()=>conf.remove(),2000);
     }
   }
 
   document.addEventListener('keydown', function(event) {
     const teclas = '0123456789/*-+.';
     if(teclas.includes(event.key)) pantalla.value += event.key;
-    else if(event.key === 'Enter') calcular();
-    else if(event.key === 'Backspace') borrarUltimo();
-    else if(event.key === 'Delete') borrar();
+    else if(event.key==='Enter') calcular();
+    else if(event.key==='Backspace') borrarUltimo();
+    else if(event.key==='Delete') borrar();
   });
 </script>
-</body>
-</html>
+
+<!-- Registro del Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(function(registration) {
+          console.log
