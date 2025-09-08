@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffe6f0",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "calculakitty",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "calculakitty",
+  "start_url": "/index.html",
+  "theme_color": "#ff69b4",
+  "id": "com.calculakitty.app"
+}
