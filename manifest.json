@@ -1,12 +1,24 @@
 {
-  "background_color": "#ffe6f0",
-  "dir": "ltr",
-  "display": "standalone",
-  "name": "calculakitty",
-  "orientation": "portrait",
-  "scope": "/",
-  "short_name": "calculakitty",
+  "id": "com.github.ihachi180422.calculakitty",
+  "name": "CalculaKitty",
+  "short_name": "CalculaKitty",
+  "description": "Una calculadora kawaii rosa y azul con Hello Kitty 🎀",
   "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffe6f0",
   "theme_color": "#ff69b4",
-  "id": "com.calculakitty.app"
+  "orientation": "portrait",
+  "lang": "es-CL",
+  "icons": [
+    {
+      "src": "/logo_aplicacion.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo_aplicacion.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
